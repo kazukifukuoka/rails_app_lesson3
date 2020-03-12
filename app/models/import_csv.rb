@@ -8,12 +8,14 @@ class ImportCsv < ApplicationRecord
         address: row["address"]
       }
     end
-    puts "インポート処理を開始"
+    puts "インポート処理を開始".red
     begin
-      User.create(list)
-      puts "インポート完了！！"
+      User.transaction do
+        User.create!(list)
+      end
+      puts "インポート完了！！".green
     rescue ActiveModel::UnknownAttributeError => invalid
-      puts "インポートに失敗しました"
+      puts "インポートに失敗しました".red
     end
   end
 end
